@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.iyouthy.view.banner.views.BannerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vBanner"
+    android:layout_width="400dp"
+    android:layout_height="250dp"
+    android:layout_gravity="center" />

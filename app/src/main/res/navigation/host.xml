@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/host"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="cn.iyouthy.view.banner.views.StartFragment"
+        android:label="StartFragment"
+        tools:layout="@layout/fragment_start">
+
+        <action
+            android:id="@+id/toBannerOnlyFragment"
+            app:destination="@id/bannerOnlyFragment" />
+
+        <action
+            android:id="@+id/toBannerWithRecyclerViewFragment"
+            app:destination="@id/bannerWithRecyclerViewFragment" />
+
+        <action
+            android:id="@+id/toBannerWithPagingRecyclerViewFragment"
+            app:destination="@id/bannerWithPagingRecyclerViewFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/bannerOnlyFragment"
+        android:name="cn.iyouthy.view.banner.views.BannerOnlyFragment"
+        android:label="BannerOnlyFragment"
+        tools:layout="@layout/fragment_banner_only" />
+
+    <fragment
+        android:id="@+id/bannerWithRecyclerViewFragment"
+        android:name="cn.iyouthy.view.banner.views.BannerWithRecyclerViewFragment"
+        android:label="BannerWithRecyclerViewFragment"
+        tools:layout="@layout/fragment_banner_with_recycler_view" />
+
+    <fragment
+        android:id="@+id/bannerWithPagingRecyclerViewFragment"
+        android:name="cn.iyouthy.view.banner.views.BannerWithPagingRecyclerViewFragment"
+        android:label="BannerWithPagingRecyclerViewFragment"
+        tools:layout="@layout/fragment_banner_with_paging_recycler_view" />
+
+</navigation>

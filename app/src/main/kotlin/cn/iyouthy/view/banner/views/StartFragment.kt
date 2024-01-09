@@ -18,6 +18,9 @@ class StartFragment : BindingFragment<FragmentStartBinding>(
         binding.btnBannerOnly.setOnClickListener {
             findNavController().navigate(R.id.toBannerOnlyFragment)
         }
+        binding.btnBannerSingleItem.setOnClickListener {
+            findNavController().navigate(R.id.bannerSingleItemFragment)
+        }
         binding.btnBannerWithRecyclerView.setOnClickListener {
             findNavController().navigate(R.id.toBannerWithRecyclerViewFragment)
         }

@@ -16,4 +16,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@android:color/holo_green_dark" />
 
+    <View
+        android:id="@+id/vErrorState"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:background="@drawable/error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/vBanner"
+        app:layout_constraintLeft_toLeftOf="@+id/vBanner"
+        app:layout_constraintRight_toRightOf="@+id/vBanner"
+        app:layout_constraintTop_toTopOf="@+id/vBanner" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

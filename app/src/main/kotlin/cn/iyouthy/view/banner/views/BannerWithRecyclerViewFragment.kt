@@ -1,5 +1,6 @@
 package cn.iyouthy.view.banner.views
 
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.SparseArray
 import android.view.ViewGroup
@@ -33,6 +34,11 @@ class BannerWithRecyclerViewFragment : BindingFragment<FragmentBannerWithRecycle
     private val normalVm by viewModels<NormalVm>()
     private val bannerVm by viewModels<BannerVm>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bannerVm.clearAndRecover()
+    }
+
     override fun onViewBindingCreated(
         scope: LifecycleCoroutineScope,
         binding: FragmentBannerWithRecyclerViewBinding
@@ -45,27 +51,27 @@ class BannerWithRecyclerViewFragment : BindingFragment<FragmentBannerWithRecycle
         binding.rvList.adapter = rvAdapter
         launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-combine(
-    bannerVm.bannerVisibility,
-    normalVm.dataListFlow,
-    ::Pair
-).map { (visibility, normalList) ->
-    when (visibility) {
-        false -> normalList.map { data -> NormalItem(data) }
-        true -> normalList.fold(
-            listOf<ItemData>(BannerItem)
-        ) { banner, normalData ->
-            banner + NormalItem(normalData)
-        }
-    }
-}.collectLatest { list ->
-    rvAdapter.submitList(list) {
-        val withBanner = list.any { it is BannerItem }
-        if (withBanner) {
-            binding.rvList.scrollToPosition(0)
-        }
-    }
-}
+                combine(
+                    bannerVm.bannerVisibility,
+                    normalVm.dataListFlow,
+                    ::Pair
+                ).map { (visibility, normalList) ->
+                    when (visibility) {
+                        false -> normalList.map { data -> NormalItem(data) }
+                        true -> normalList.fold(
+                            listOf<ItemData>(BannerItem)
+                        ) { banner, normalData ->
+                            banner + NormalItem(normalData)
+                        }
+                    }
+                }.collectLatest { list ->
+                    rvAdapter.submitList(list) {
+                        val withBanner = list.any { it is BannerItem }
+                        if (withBanner) {
+                            binding.rvList.scrollToPosition(0)
+                        }
+                    }
+                }
             }
         }
         Unit

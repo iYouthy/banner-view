@@ -1,5 +1,6 @@
 package cn.iyouthy.view.banner.views
 
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.SparseArray
 import android.view.ViewGroup
@@ -42,6 +43,11 @@ class BannerWithPagingRecyclerViewFragment
     private val loadMoreVm by viewModels<LoadMoreVm>()
     private val bannerVm by viewModels<BannerVm>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bannerVm.clearAndRecover()
+    }
+
     override fun onViewBindingCreated(
         scope: LifecycleCoroutineScope,
         binding: FragmentBannerWithPagingRecyclerViewBinding
@@ -68,7 +74,7 @@ class BannerWithPagingRecyclerViewFragment
                             BannerItem
                         )
                     }
-                    rvAdapter.submitData(finalPagingData)
+                    launch { rvAdapter.submitData(finalPagingData) }
                     if (visible) binding.rvList.scrollToPosition(0)
                 }
             }

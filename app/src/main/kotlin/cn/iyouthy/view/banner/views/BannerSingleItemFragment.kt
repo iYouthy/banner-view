@@ -1,21 +1,19 @@
 package cn.iyouthy.view.banner.views
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.paging.LoadState
 import cn.iyouthy.demo.banner.R
 import cn.iyouthy.demo.banner.databinding.FragmentBannerOnlyBinding
 import cn.iyouthy.view.banner.abstracts.BindingFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class BannerOnlyFragment : BindingFragment<FragmentBannerOnlyBinding>(
+class BannerSingleItemFragment : BindingFragment<FragmentBannerOnlyBinding>(
     R.layout.fragment_banner_only,
     FragmentBannerOnlyBinding::bind
 ) {
@@ -24,7 +22,7 @@ class BannerOnlyFragment : BindingFragment<FragmentBannerOnlyBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bannerVm.delayToLoad()
+        bannerVm.singleAndRecover()
     }
 
     override fun onViewBindingCreated(
@@ -47,14 +45,16 @@ class BannerOnlyFragment : BindingFragment<FragmentBannerOnlyBinding>(
                 }
             }
         }
+
         launch {
-            bannerAdapter.loadStateFlow.collectLatest {
-                binding.vErrorState.visibility = when (it.refresh) {
-                    is LoadState.Error -> View.VISIBLE
-                    else -> View.GONE
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                bannerVm.isSingleItem.collect { single ->
+                    binding.vBanner.autoSwipe = !single
+                    binding.vBanner.isUserInputEnabled = !single
                 }
             }
         }
+
         Unit
     }
 

@@ -55,7 +55,10 @@ class BannerView @JvmOverloads constructor(
                 }
             }
         }
-        return super.dispatchTouchEvent(ev)
+        val isDownAction = ev?.action == MotionEvent.ACTION_DOWN
+        val handled = super.dispatchTouchEvent(ev)
+        if (isDownAction && !handled) touching.update { false }
+        return handled
     }
 
     private val _autoSwipe = MutableStateFlow(true)
@@ -132,6 +135,12 @@ class BannerView @JvmOverloads constructor(
         get() = binding.vpBanner.adapter
         set(value) {
             binding.vpBanner.adapter = value
+        }
+
+    var isUserInputEnabled
+        get() = binding.vpBanner.isUserInputEnabled
+        set(value) {
+            binding.vpBanner.isUserInputEnabled = value
         }
 
 }

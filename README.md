@@ -632,3 +632,52 @@ Banner 作为一个非常常见的 UI 组件, 肯定是越简单高效越好, �
 回想几年之前, 我还在忙忙碌碌地做我的 UI 仔, 以为 Android 的开发就那么些东西, 随着学习的东西越来越多, 慢慢发现可以学的东西也越来越多, 所以所还是不要放弃学习啊!
 
 如果这篇文章介绍的方案能够对你有所帮助, 那就太好了, 谢谢浏览到这!
+
+### 五、补充用例
+
+#### 2024/01/09 在仅有一个Item时, 停止自动滑动, 并禁止用户手动滑动
+
+- 用例提供者: [@zebraoo](https://github.com/zebraoo)
+
+- 解决方案:
+
+   我们可以始终观察原始数据的数量, 当数量为1时, 使用 `BannerView` 提供的 `autoSwipe` 变量来禁止自动轮播:
+
+   > [BannerVm](https://github.com/iYouthy/banner-view/blob/main/app/src/main/kotlin/cn/iyouthy/view/banner/views/BannerVm.kt)  
+   > ```kotlin
+   > val isSingleItem get() = repo.bannerListFlow.map { it.size == 1 }
+   > ```
+
+   > [BannerSingleItemFragment](https://github.com/iYouthy/banner-view/blob/main/app/src/main/kotlin/cn/iyouthy/view/banner/views/BannerSingleItemFragment.kt)
+   > ```kotlin
+   > launch {
+   >     repeatOnLifecycle(Lifecycle.State.RESUMED) {
+   >         bannerVm.isSingleItem.collect { single ->
+   >             binding.vBanner.autoSwipe = !single
+   >         }
+   >     }
+   > }
+   > ```
+  
+   另外, 为了禁用用户手动滑动, 需要将 ViewPager2 的 `isUserInputEnabled` 接口暴露出来, 方便使用者控制:
+
+   > [BannerView](https://github.com/iYouthy/banner-view/blob/main/app/src/main/kotlin/cn/iyouthy/view/banner/views/BannerView.kt)
+   > ```kotlin
+   >  var isUserInputEnabled
+   >      get() = binding.vpBanner.isUserInputEnabled
+   >      set(value) {
+   >          binding.vpBanner.isUserInputEnabled = value
+   >      }
+   > ```
+
+   > [BannerSingleItemFragment](https://github.com/iYouthy/banner-view/blob/main/app/src/main/kotlin/cn/iyouthy/view/banner/views/BannerSingleItemFragment.kt)
+   > ```kotlin
+   > launch {
+   >     repeatOnLifecycle(Lifecycle.State.RESUMED) {
+   >         bannerVm.isSingleItem.collect { single ->
+   >             ...
+   >             binding.vBanner.isUserInputEnabled = !single
+   >         }
+   >     }
+   > }
+   > ```

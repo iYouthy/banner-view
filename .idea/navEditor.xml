@@ -14,7 +14,19 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="292" />
-                            <option name="y" value="432" />
+                            <option name="y" value="852" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="bannerSingleItemFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="292" />
+                            <option name="y" value="1272" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -26,7 +38,7 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="292" />
-                            <option name="y" value="12" />
+                            <option name="y" value="432" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -38,7 +50,7 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="292" />
-                            <option name="y" value="852" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -50,11 +62,16 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="12" />
-                            <option name="y" value="92" />
+                            <option name="y" value="108" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="bannerSingleItemFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="toBannerOnlyFragment">
                               <value>
                                 <LayoutPositions />

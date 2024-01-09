@@ -24,6 +24,10 @@ class BannerVm : ViewModel() {
 
     val bannerVisibility = repo.bannerListFlow.map { it.isNotEmpty() }
 
+    val isSingleItem get() = repo.bannerListFlow.map { it.size == 1 }
+
+    val isEmpty get() = repo.bannerListFlow.map { it.isEmpty() }
+
     private val sourceStateFlow = repo.bannerListFlow.scan(
         null as BannerPagingSource<Banner, Long>?
     ) { lastSource, list ->
@@ -41,13 +45,29 @@ class BannerVm : ViewModel() {
 
     val bannerViewState = SparseArray<Parcelable?>()
 
-    init {
+    fun delayToLoad() {
         viewModelScope.launch {
-            delay(3.seconds)
+            repo.clear()
+            delay(6.seconds)
+            repo.recover()
+        }
+    }
+
+    fun clearAndRecover() {
+        viewModelScope.launch {
+            delay(6.seconds)
             repo.clear()
             delay(3.seconds)
             repo.recover()
         }
+    }
 
+    fun singleAndRecover() {
+        viewModelScope.launch {
+            delay(6.seconds)
+            repo.single()
+            delay(6.seconds)
+            repo.recover()
+        }
     }
 }

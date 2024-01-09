@@ -17,6 +17,8 @@ class BannerRepository {
     private val _bannerListFlow = MutableStateFlow(bannerList)
     val bannerListFlow: StateFlow<List<Banner>> = _bannerListFlow
 
+    fun single() = _bannerListFlow.update { listOf(bannerList.first()) }
+
     fun clear() = _bannerListFlow.update { emptyList() }
 
     fun recover() = _bannerListFlow.update { bannerList }

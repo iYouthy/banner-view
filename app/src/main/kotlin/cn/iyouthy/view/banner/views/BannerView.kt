@@ -44,7 +44,7 @@ class BannerView @JvmOverloads constructor(
         require(p is ViewGroup)
         ev?.let {
             when (it.action) {
-                MotionEvent.ACTION_DOWN -> {
+                MotionEvent.ACTION_DOWN -> if (isUserInputEnabled) {
                     p.requestDisallowInterceptTouchEvent(true)
                     touching.update { true }
                 }
@@ -55,10 +55,7 @@ class BannerView @JvmOverloads constructor(
                 }
             }
         }
-        val isDownAction = ev?.action == MotionEvent.ACTION_DOWN
-        val handled = super.dispatchTouchEvent(ev)
-        if (isDownAction && !handled) touching.update { false }
-        return handled
+        return super.dispatchTouchEvent(ev)
     }
 
     private val _autoSwipe = MutableStateFlow(true)

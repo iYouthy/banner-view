@@ -681,3 +681,22 @@ Banner 作为一个非常常见的 UI 组件, 肯定是越简单高效越好, �
    >     }
    > }
    > ```
+
+   最后, 事件分发中, 如果 ViewPager2 已经不能手动滑动了, 就没有必要响应触摸事件了:
+
+   > [BannerView](https://github.com/iYouthy/banner-view/blob/main/app/src/main/kotlin/cn/iyouthy/view/banner/views/BannerView.kt)
+   > ```kotlin
+   >  override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+   >      ...
+   >      ev?.let {
+   >          when (it.action) {
+   >              MotionEvent.ACTION_DOWN -> if (isUserInputEnabled) {
+   >                  p.requestDisallowInterceptTouchEvent(true)
+   >                  touching.update { true }
+   >              }
+   >              ...
+   >         }
+   >     }
+   >     return super.dispatchTouchEvent(ev)
+   > }
+   > ```
